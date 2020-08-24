@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody,CardTitle,CardImgOverlay, timeoutsShape } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody,CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class DishdetailComponent extends Component {
     constructor(props) {
@@ -7,32 +8,6 @@ class DishdetailComponent extends Component {
         this.state = {
             dish: this.props.dish
         }
-    }
-    renderComments(){
-        if (this.props.dish != null){
-            console.log(this.props.dish.comments)
-            const comments = this.props.dish.comments.map((comment) => {
-                return (
-                    <ul className="list-unstyled">
-                        <li>{comment.comment}</li>
-                        <li>--{comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</li>
-                    </ul>
-                );
-            });
-
-            return (
-                <div>
-                    <h4>Comments</h4>
-                    {comments}
-                </div>
-            );
-        }
-        else{
-            return(
-                <div></div>
-            );
-        }
-
     }
 
     render() {
@@ -81,16 +56,28 @@ class DishdetailComponent extends Component {
         }
 
         const  DishDetail = (props) => {
-           return <div className="container">
+            return (
+                <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{this.props.dish.name}</h3>
+                        <hr />
+                    </div>                
+                </div>
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        <RenderDish dish={this.props.dish}/>
+                        <RenderDish dish={this.props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={this.props.dish?.comments}/>
+                        <RenderComments comments={this.props.comments} />
                     </div>
                 </div>
-            </div>
+                </div>
+            );
         }
 
         return (

@@ -1,12 +1,14 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 function RenderLeader({leader}) {
     return (
         <Media tag="li">
             <Media left middle className="mr-5">
-                <Media object src={leader.image} alt="image" />
+                <Media object src={baseUrl + leader.image} alt={leader.name}/>
             </Media>
             <Media body>
                 <Media heading>
@@ -20,10 +22,12 @@ function RenderLeader({leader}) {
 }
 
 function About(props) {
-
+    
     const leaders = props.leaders.map((leader) => {
         return (
-            <RenderLeader key={leader.id} leader={leader} />
+            <Fade in>
+                <RenderLeader key={leader.id} leader={leader} />
+            </Fade>
         );
     });
 
@@ -83,7 +87,9 @@ function About(props) {
                 </div>
                 <div className="col-12">
                     <Media list>
+                    <Stagger in>
                         {leaders}
+                    </Stagger>
                     </Media>
                 </div>
             </div>
